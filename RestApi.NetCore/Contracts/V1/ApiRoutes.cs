@@ -21,5 +21,11 @@ namespace RestApi.NetCore.Contracts
             //public static readonly string Create = $"{Base}/posts";
             //public static readonly string Get = $"{Base}/posts/{postID}";
         }
+
+        public static class Identity
+        {
+            public const string Login = Base + "identity/login";
+            public const string Register = Base + "identity/register";
+        }
     }
 }
