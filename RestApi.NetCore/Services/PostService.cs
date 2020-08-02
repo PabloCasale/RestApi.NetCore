@@ -24,6 +24,7 @@ namespace RestApi.NetCore.Services
             }
         }
 
+
         public Post GetPostById(Guid postId)
         {
             return _posts.SingleOrDefault(x => x.Id == postId);
@@ -46,6 +47,19 @@ namespace RestApi.NetCore.Services
             _posts[index] = postToUpdate;
             return true;
 
+        }
+
+        public bool DeletePost(Guid postId)
+        {
+            var post = GetPostById(postId);
+
+            if (post == null)
+            {
+                return false;
+            }
+
+            _posts.Remove(post);
+            return true;
         }
     }
 }
