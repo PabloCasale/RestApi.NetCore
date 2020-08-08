@@ -13,5 +13,6 @@ namespace RestApi.NetCore.Services
         Task<bool> UpdatePostAsync(Post postToUpdate);
         Task<bool> DeletePostAsync(Guid postId);
         Task<bool> CreatePostAsync(Post post);
+        Task<bool> UserOwnsPost(Guid postId, string getUserId);
     }
 }

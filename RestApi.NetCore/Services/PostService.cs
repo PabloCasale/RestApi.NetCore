@@ -56,6 +56,23 @@ namespace RestApi.NetCore.Services
             await _db.Posts.AddAsync(post);
             var created = await _db.SaveChangesAsync();
             return created > 0;
-        } 
+        }
+
+        public async Task<bool> UserOwnsPost(Guid postId, string getUserId)
+        {
+            var post = await _db.Posts.AsNoTracking().SingleOrDefaultAsync(x => x.Id == postId);
+
+            if (post == null)
+            {
+                return false;
+            }
+
+            if (post.UserId != getUserId)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }
