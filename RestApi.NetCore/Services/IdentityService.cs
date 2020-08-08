@@ -23,6 +23,8 @@ namespace RestApi.NetCore.Services
             this._jwtSettings = jwtSettings;
         }
 
+        
+
         public async Task<AuthenticationResult> RegisterAsync(string email, string password)
         {
             var existingUser = await _userManager.FindByEmailAsync(email);
@@ -51,6 +53,36 @@ namespace RestApi.NetCore.Services
                 };
             }
 
+            return GenerateAuthenticationResultForUser(newUser);
+        }
+
+        public async Task<AuthenticationResult> LoginAsync(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "User doesnt Exists" }
+                };
+            }
+
+            var userHasValidPassword = await _userManager.CheckPasswordAsync(user, password);
+
+            if (!userHasValidPassword)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "User or Password wrong." }
+                };
+            }
+            
+            return GenerateAuthenticationResultForUser(user);
+        }
+
+        private AuthenticationResult GenerateAuthenticationResultForUser(IdentityUser newUser)
+        {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
