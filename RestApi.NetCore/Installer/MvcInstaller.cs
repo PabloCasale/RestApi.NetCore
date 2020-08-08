@@ -23,7 +23,7 @@ namespace RestApi.NetCore.Installer
 
             services.AddScoped<IIdentityService, IdentityService>();
 
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+            services.AddMvc(opt => { opt.EnableEndpointRouting = false; }).SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
             
             var tokenValidationParameters = new TokenValidationParameters
             {
